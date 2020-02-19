@@ -72,7 +72,6 @@ export default function FavoritesScreen() {
       <FlatList
         data={data.items}
         renderItem={() => favorites()}
-        extraData={data}
         keyExtractor={item => item[0]}
       />
     </View>
