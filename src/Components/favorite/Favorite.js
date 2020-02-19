@@ -1,12 +1,5 @@
 import React from 'react';
-import {
-  TouchableOpacity,
-  Text,
-  Image,
-  StyleSheet,
-  Button,
-  View,
-} from 'react-native';
+import {TouchableOpacity, Text, Image, StyleSheet, View} from 'react-native';
 import AsyncStorage from '@react-native-community/async-storage';
 import {useNavigation} from '@react-navigation/native';
 
