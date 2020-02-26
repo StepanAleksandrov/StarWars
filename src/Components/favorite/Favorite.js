@@ -2,40 +2,49 @@ import React from 'react';
 import {TouchableOpacity, Text, Image, StyleSheet, View} from 'react-native';
 import AsyncStorage from '@react-native-community/async-storage';
 import {useNavigation} from '@react-navigation/native';
+import Swipeable from 'react-native-gesture-handler/Swipeable';
 
-export default function Favorite(params) {
+export default function Favorite({params, onPress}) {
   const navigation = useNavigation();
-  const person = JSON.parse(params.person[1]);
+  const person = JSON.parse(params[1]);
 
   const removeFavorite = async () => {
     try {
-      await AsyncStorage.removeItem(params.person[0]);
+      await AsyncStorage.removeItem(params[0]);
+      onPress();
     } catch (error) {
       console.error('Error saving data');
     }
   };
 
+  const renderLeftActions = () => {
+    return (
+      <View style={styles.viewRemove}>
+        <Text style={styles.viewText}>Remove</Text>
+      </View>
+    );
+  };
+
   return (
-    <TouchableOpacity
-      onPress={() => {
-        navigation.navigate('PersonInfo', {person});
-      }}
-      style={styles.item}>
-      <Image
-        source={{
-          uri:
-            'https://www.pavilionweb.com/wp-content/uploads/2017/03/man-300x300.png',
-        }}
-        style={styles.image}></Image>
-      <Text style={styles.title}>{person.name}</Text>
-      <TouchableOpacity
-        onPress={() => removeFavorite()}
-        style={styles.buttonRemove}>
-        <View style={styles.button}>
-          <Text style={styles.buttonText}>X</Text>
-        </View>
-      </TouchableOpacity>
-    </TouchableOpacity>
+    <Swipeable
+      renderLeftActions={() => renderLeftActions()}
+      onSwipeableLeftWillOpen={() => removeFavorite()}>
+      {person && person.name ? (
+        <TouchableOpacity
+          onPress={() => {
+            navigation.navigate('PersonInfo', {person});
+          }}
+          style={styles.item}>
+          <Image
+            source={{
+              uri:
+                'https://www.pavilionweb.com/wp-content/uploads/2017/03/man-300x300.png',
+            }}
+            style={styles.image}></Image>
+          <Text style={styles.title}>{person.name}</Text>
+        </TouchableOpacity>
+      ) : null}
+    </Swipeable>
   );
 }
 
@@ -50,24 +59,23 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     flex: 1,
   },
-  button: {
+  viewRemove: {
     backgroundColor: 'red',
-    borderRadius: 50,
-    justifyContent: 'center',
-    width: 30,
-    height: 30,
-  },
-  buttonRemove: {
+    borderRadius: 20,
     padding: 10,
-    flexDirection: 'row',
-    flex: 0.1,
+    marginVertical: 6,
+    marginLeft: 12,
+    flexDirection: 'column',
+    justifyContent: 'center',
+    alignItems: 'flex-start',
+    flex: 0.95,
   },
-  buttonText: {
-    alignSelf: 'center',
+  viewText: {
+    fontSize: 24,
     color: 'white',
   },
   title: {
-    fontSize: 24,
+    fontSize: 22,
     marginLeft: 20,
     alignSelf: 'center',
     flex: 1,

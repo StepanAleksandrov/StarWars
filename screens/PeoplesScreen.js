@@ -1,20 +1,15 @@
 import React, {useState, useEffect} from 'react';
-import {
-  View,
-  FlatList,
-  TextInput,
-  StyleSheet,
-  ActivityIndicator,
-} from 'react-native';
-import Planet from './Planet';
+import {View, FlatList, StyleSheet, ActivityIndicator} from 'react-native';
+import Person from '../src/Components/peoples/Person';
+import {TextInput} from 'react-native-gesture-handler';
 
-export default function PlanetsScreen() {
+export default function PeoplesScreen() {
   const [data, setData] = useState({items: []});
-  const [copyData, setCopyData] = useState({items: []});
+  const [copyData, setCopyData] = useState({items: data});
   const [loading, setLoading] = useState({isLoading: true});
 
   useEffect(() => {
-    fetch('https://swapi.co/api/planets/')
+    fetch('https://swapi.co/api/people/')
       .then(res => res.json())
       .then(
         result => {
@@ -22,7 +17,7 @@ export default function PlanetsScreen() {
             items: result.results,
           });
           setLoading({
-            loading: false,
+            loading: !loading,
           });
           setCopyData({
             items: result.results,
@@ -34,7 +29,7 @@ export default function PlanetsScreen() {
           });
         },
       );
-  }, []);
+  }, [data]);
 
   const onSearch = text => {
     let newData =
@@ -57,7 +52,7 @@ export default function PlanetsScreen() {
       ) : (
         <FlatList
           data={data && data.items}
-          renderItem={({item}) => <Planet planet={item} />}
+          renderItem={({item}) => <Person person={item} />}
           keyExtractor={item => item.created}
         />
       )}

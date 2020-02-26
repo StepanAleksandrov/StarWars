@@ -1,15 +1,20 @@
 import React, {useState, useEffect} from 'react';
-import {View, FlatList, StyleSheet, ActivityIndicator} from 'react-native';
-import Person from './Person';
-import {TextInput} from 'react-native-gesture-handler';
+import {
+  View,
+  FlatList,
+  TextInput,
+  StyleSheet,
+  ActivityIndicator,
+} from 'react-native';
+import Planet from '../src/Components/planets/Planet';
 
-export default function PeoplesScreen() {
+export default function PlanetsScreen() {
   const [data, setData] = useState({items: []});
-  const [copyData, setCopyData] = useState({items: data});
+  const [copyData, setCopyData] = useState({items: []});
   const [loading, setLoading] = useState({isLoading: true});
 
   useEffect(() => {
-    fetch('https://swapi.co/api/people/')
+    fetch('https://swapi.co/api/planets/')
       .then(res => res.json())
       .then(
         result => {
@@ -17,7 +22,7 @@ export default function PeoplesScreen() {
             items: result.results,
           });
           setLoading({
-            loading: !loading,
+            loading: false,
           });
           setCopyData({
             items: result.results,
@@ -52,7 +57,7 @@ export default function PeoplesScreen() {
       ) : (
         <FlatList
           data={data && data.items}
-          renderItem={({item}) => <Person person={item} />}
+          renderItem={({item}) => <Planet planet={item} />}
           keyExtractor={item => item.created}
         />
       )}
@@ -63,18 +68,6 @@ export default function PeoplesScreen() {
 const styles = StyleSheet.create({
   container: {
     marginBottom: 50,
-  },
-  item: {
-    backgroundColor: '#f9c2ff',
-    padding: 20,
-    marginVertical: 8,
-    marginHorizontal: 16,
-    flexDirection: 'row',
-  },
-  image: {
-    width: 100,
-    height: 100,
-    borderRadius: 50,
   },
   input: {
     borderWidth: 2,

@@ -2,10 +2,10 @@ import * as React from 'react';
 import {NavigationContainer} from '@react-navigation/native';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {createStackNavigator} from '@react-navigation/stack';
-import Planets from '../src/Components/planets/PlanetsScreen';
-import Peoples from '../src/Components/peoples/PeoplesScreen';
-import PersonInfo from '../src/Components/peoples/PersonInfoScreen';
-import Favorites from '../src/Components/favorite/FavoritesScreen';
+import Planets from '../screens/PlanetsScreen';
+import Peoples from '../screens/PeoplesScreen';
+import PersonInfo from '../screens/PersonInfoScreen';
+import Favorites from '../screens/FavoritesScreen';
 
 const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();
